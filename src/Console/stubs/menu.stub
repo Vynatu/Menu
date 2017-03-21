@@ -1,0 +1,13 @@
+<?php
+
+namespace DummyNamespace;
+
+use Vynatu\Menu\MenuInstance;
+
+class DummyClass extends MenuInstance
+{
+    public function generate()
+    {
+        // return $this->menu->add('item', 'link');
+    }
+}
