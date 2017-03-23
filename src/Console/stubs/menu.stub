@@ -2,7 +2,7 @@
 
 namespace DummyNamespace;
 
-use Vynatu\Menu\MenuInstance;
+use \Vynatu\Menu\MenuInstance;
 
 class DummyClass extends MenuInstance
 {

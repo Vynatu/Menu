@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Vynatu\Menu;
+namespace Vynatu\Menu\Facade;
 
-class MenuInstance
+use Illuminate\Support\Facades\Facade;
+
+class Menu extends Facade
 {
-    protected $menu;
-
-    public function setMenu(MenuItem $menu)
+    protected static function getFacadeAccessor()
     {
-        $this->menu = $menu;
+        return 'menu';
     }
 }

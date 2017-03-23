@@ -30,17 +30,17 @@ class MenuManager
         $this->_menus[$name] = $menu;
     }
 
-    public function get($menu)
-    {
-        if(!array_key_exists($menu, $this->_menus)) {
-            throw new NoSuchMenuFoundException($menu);
-        }
-
-        return $this->_app->make($menu);
-    }
-
     public function getMenu($menu)
     {
         return $this->get($menu);
+    }
+
+    public function get($menu)
+    {
+        if (! array_key_exists($menu, $this->_menus)) {
+            throw new NoSuchMenuFoundException($menu);
+        }
+
+        return ($this->_app->make($menu)->generate());
     }
 }

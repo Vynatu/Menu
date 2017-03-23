@@ -22,26 +22,27 @@ class MenuServiceProvider extends ServiceProvider
     public function register()
     {
         // Expose commands
-        $this->commands(MakeMenuCommand::class);
+        if ($this->app->runningInConsole()) {
+            $this->commands(MakeMenuCommand::class);
+
+        }
 
         // Expose Manager
         $this->app->singleton(
-            MenuManager::class,
+            'menu',
             function ($app) {
                 return new MenuManager($app);
             }
         );
 
-        $this->app->bind(
-            MenuItem::class,
-            function () {
-                return new MenuItem;
-            }
-        );
+        $this->app->alias('menu', MenuManager::class);
+
+        // View Composer
+        view()->share('menu', app('menu'));
     }
 
     public function provides()
     {
-        return [MenuManager::class, MenuItem::class];
+        return [MenuManager::class, 'menu'];
     }
 }
