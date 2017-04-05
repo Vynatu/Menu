@@ -24,7 +24,6 @@ class MenuServiceProvider extends ServiceProvider
         // Expose commands
         if ($this->app->runningInConsole()) {
             $this->commands(MakeMenuCommand::class);
-
         }
 
         // Expose Manager

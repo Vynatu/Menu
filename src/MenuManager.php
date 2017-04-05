@@ -18,7 +18,8 @@ use Vynatu\Menu\Exceptions\NoSuchMenuFoundException;
 class MenuManager
 {
     protected $_app;
-    protected $_menus = [];
+    protected $_menus     = [];
+    protected $_extenders = [];
 
     function __construct(Application $app)
     {
@@ -30,17 +31,45 @@ class MenuManager
         $this->_menus[$name] = $menu;
     }
 
+    public function extend($name, $extender)
+    {
+        if (! array_key_exists($this->_extenders[$name])) {
+            $this->_extenders[$name] = [];
+        }
+
+        $this->_extenders[$name][] = $extender;
+    }
+
     public function getMenu($menu)
     {
         return $this->get($menu);
     }
 
-    public function get($menu)
+    public function get($menu_name)
     {
-        if (! array_key_exists($menu, $this->_menus)) {
-            throw new NoSuchMenuFoundException($menu);
+        if (! array_key_exists($menu_name, $this->_menus)) {
+            throw new NoSuchMenuFoundException($menu_name);
         }
 
-        return ($this->_app->make($menu)->generate());
+        // Get the root menu and fetch it
+        $instance = $this->_app->make($this->_menus[$menu_name]);
+        $instance->setMenu(new RootMenuItem)
+                 ->generate();
+
+        $menu = $instance->getMenu();
+
+        // Check if any extenders exist and execute them
+        if (array_key_exists($menu_name, $this->_extenders)) {
+            foreach ($this->_extenders[$menu_name] as $extender) {
+                $extender_instance = $this->_app->make($extender);
+                $extender_instance->setMenu($menu)
+                                  ->generate();
+
+                $menu =  $extender_instance->getMenu();
+            }
+        }
+
+
+        return $instance->getMenu();
     }
 }

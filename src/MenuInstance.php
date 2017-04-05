@@ -15,8 +15,15 @@ class MenuInstance
 {
     protected $menu;
 
-    public function setMenu(MenuItem $menu)
+    public function getMenu()
+    {
+        return $this->menu;
+    }
+
+    public function setMenu(RootMenuItem $menu)
     {
         $this->menu = $menu;
+
+        return $this;
     }
 }
