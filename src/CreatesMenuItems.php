@@ -44,15 +44,18 @@ trait CreatesMenuItems
     {
         $item = new MenuItem;
         $item->title = $title;
+        $item->setParent($this);
 
         if ($config === null) {
-            $this->_items[snake_case($title)] = &$item;
+            $slug = $item['__slug__'] = snake_case($title);
+            $this->_items[$slug] = &$item;
 
             return $item;
         }
 
         if (is_array($config)) {
-            $this->_items[$config['name'] ?? snake_case($title)] = &$item;
+            $slug = $item['__slug__'] = ($config['name'] ?? snake_case($title));
+            $this->_items[$slug] = &$item;
 
             $item->applyConfig($config);
 
@@ -62,7 +65,8 @@ trait CreatesMenuItems
         // Else it's a string
         // Is it a route?
         if (starts_with($config, 'route:')) {
-            $this->_items[snake_case($title)] = &$item;
+            $slug = $item['__slug__'] = snake_case($title);
+            $this->_items[$slug] = &$item;
 
             $route = str_replace_first('route:', '', $config);
             $route_with_params = explode('|', $route);

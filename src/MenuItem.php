@@ -43,25 +43,72 @@ class MenuItem extends RootMenuItem
         return $this;
     }
 
+    /**
+     * Creates an HTML Tag out of the item
+     *
+     * @param $item
+     *
+     * @return null|string
+     */
     public function makeTag($item)
     {
-        if(array_key_exists($item, $this->_items)) {
+        if (array_key_exists($item, $this->_items)) {
             return $item . '="' . $this->_items[$item] . '"';
         }
 
         return null;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function offsetSet($offset, $value)
+    public function slug($new_slug)
     {
-        $this->_items[$offset] = $value;
+        $old_name = $this->_items['__slug__'];
+
+        $this->_items['__slug__'] = $new_slug;
+
+        $this->_items['__parent__']->replaceItemName($old_name, $new_slug);
+
+        return $this;
+    }
+
+    public function setParent($parent)
+    {
+        $this->_items['__parent__'] = $parent;
+
+        return $this;
+    }
+
+    public function matches($m)
+    {
+        if (! isset($this->_items['_matches'])) {
+            $this->_items['_matches'] = [];
+        }
+
+        $this->_items['_matches'][] = $m;
+
+        return $this;
+    }
+
+    public function active()
+    {
+        if ($this->url == request()->path()) {
+            return true;
+        }
+
+        if (! $this->_items['_matches']) {
+            return false;
+        }
+
+        foreach ($this->_items['_matches'] as $match) {
+            if (request()->route()->getName() == $match) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
-     * Sets a variable to a value (Direct assignement
+     * Sets a variable to a value (Direct assignement)
      *
      * @param $name
      * @param $value
@@ -86,6 +133,14 @@ class MenuItem extends RootMenuItem
         $this->_items[$name] = $arguments[0] ?? true;
 
         return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->_items[$offset] = $value;
     }
 
     protected function applyConfig(array $config)

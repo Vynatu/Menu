@@ -35,6 +35,32 @@ class RootMenuItem implements \ArrayAccess, Arrayable, \Countable, \IteratorAggr
         return $items;
     }
 
+    public function hasSubItems()
+    {
+        foreach ($this->_items as $key => $item) {
+            if ($item instanceof MenuItem) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function replaceItemName($old, $new)
+    {
+        $keys = array_keys($this->_items);
+
+        if (($index = array_search($old, $keys)) === false) {
+            return $this;
+        }
+
+        $keys[$index] = $new;
+
+        $this->_items = array_combine($keys, array_values($this->_items));
+
+        return $this;
+    }
+
     /**
      * Gets a submenu item using magic
      *
@@ -58,11 +84,6 @@ class RootMenuItem implements \ArrayAccess, Arrayable, \Countable, \IteratorAggr
     public function getIterator()
     {
         return new \ArrayIterator($this->_items);
-    }
-
-    public function toArray()
-    {
-        return $this->_items;
     }
 
     /**
@@ -177,5 +198,15 @@ class RootMenuItem implements \ArrayAccess, Arrayable, \Countable, \IteratorAggr
     function jsonSerialize()
     {
         return $this->toArray();
+    }
+
+    public function toArray()
+    {
+        return array_map(
+            function ($v) {
+                return $v instanceof Arrayable ? $v->toArray() : $v;
+            },
+            $this->_items
+        );
     }
 }
