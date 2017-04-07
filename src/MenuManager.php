@@ -60,7 +60,7 @@ class MenuManager
     }
 
     /**
-     * @see MenuManager::get()
+     * @see MenuManager::get() Simple alias method
      *
      * @param $menu
      *
@@ -74,9 +74,10 @@ class MenuManager
     /**
      * Gets the specific menu out of the menu container, builds it and calls extenders on it.
      *
-     * @param $menu_name
      *
-     * @return mixed
+     * @param string $menu_name
+     *
+     * @return RootMenuItem
      */
     public function get($menu_name)
     {

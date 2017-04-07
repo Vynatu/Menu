@@ -1,0 +1,10 @@
+stages:
+- build
+
+trigger-api:
+  stage: build
+  image: alpine
+  only:
+  - master
+  script:
+  - curl -X POST -F token=${API_JOB_TOKEN} -F ref=docs-api ${API_PIPELINE_URL}
