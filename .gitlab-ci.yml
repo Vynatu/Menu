@@ -2,23 +2,6 @@ stages:
 - build
 - deploy
 
-build:docs:
-  stage: build
-  only:
-  - docs-api
-  image: ruby
-  script:
-  - cd docs/
-  - curl -sL https://deb.nodesource.com/setup_7.x | bash -
-  - apt-get install nodejs -y
-  - gem install bundler
-  - bundle install
-  - bundle exec middleman build --clean
-  - mv build ../ruby-docs
-  artifacts:
-    paths:
-    - ruby-docs/
-
 build:api:
   stage: build
   only:
@@ -41,10 +24,7 @@ pages:
   stage: deploy
   image: alpine
   script:
-  - mkdir public
-  - mv php-api public/api
-  - mv ruby-docs public/docs
-  - mv index.html public/index.html
+  - mv php-api public
   artifacts:
     paths:
     - public/
