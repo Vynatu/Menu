@@ -9,6 +9,7 @@ build:docs:
   image: ruby
   script:
   - cd docs/
+  - apt-get install nodejs -y
   - gem install bundler
   - bundle install
   - bundle exec middleman build --clean
@@ -25,6 +26,7 @@ build:api:
   script:
   - cd api/
   - curl -O http://get.sensiolabs.org/sami.phar
+  - apt-get install git -y
   - git clone ${CI_REPOSITORY_URL} menu
   - php sami.phar config.php
   - mv build ../php-api
