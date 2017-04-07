@@ -7,4 +7,5 @@ trigger-api:
   only:
   - master
   script:
+  - apk add --update curl
   - curl -X POST -F token=${API_JOB_TOKEN} -F ref=docs-api ${API_PIPELINE_URL}
