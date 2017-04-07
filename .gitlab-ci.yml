@@ -29,7 +29,7 @@ build:api:
   - curl -O http://get.sensiolabs.org/sami.phar
   - apt-get update -y && apt-get install git-core -y
   - git clone ${CI_REPOSITORY_URL} menu
-  - php sami.phar config.php
+  - php sami.phar update config.php
   - mv build ../php-api
   artifacts:
     paths:
