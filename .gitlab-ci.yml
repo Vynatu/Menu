@@ -9,7 +9,7 @@ build:docs:
   image: ruby
   script:
   - cd docs/
-  - curl -sL https://deb.nodesource.com/setup_7.x | sudo bash -
+  - curl -sL https://deb.nodesource.com/setup_7.x | bash -
   - apt-get install nodejs -y
   - gem install bundler
   - bundle install
