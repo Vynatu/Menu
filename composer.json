@@ -1,6 +1,18 @@
 {
     "name": "vynatu/menu",
     "description": "An extendable and async menu package for Laravel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Felix Lebel",
+            "email": "felix@vynatu.io",
+            "role": "Co-Founder"
+        },
+        {
+            "name": "Vynatu Cyberlabs, Inc.",
+            "homepage": "https://vynatu.io"
+        }
+    ],
     "require": {
         "php": ">=7.0",
         "illuminate/support": "^5.0"
@@ -10,13 +22,6 @@
             "Vynatu\\Menu\\": "src/"
         }
     },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Felix Lebel",
-            "email": "felix@vynatu.io"
-        }
-    ],
     "extra": {
         "branch-alias": {
             "dev-master": "0.1-dev"

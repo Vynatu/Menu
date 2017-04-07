@@ -20,11 +20,38 @@ class MenuItem extends RootMenuItem
      * @param string $route  The route to resolve
      * @param array  $params Additional parameters
      *
+     * @param bool   $addToMatches
+     *
      * @return $this
      */
-    public function route($route, array $params = [])
+    public function route($route, array $params = [], $addToMatches = true)
     {
-        $this->url = $this->route($route, $params);
+        $this->url = route($route, $params);
+
+        if ($addToMatches) {
+            // Also add a match since we will convert the route
+            $this->matches($route);
+        }
+
+
+        return $this;
+    }
+
+    /**
+     * Adds a match for a URL (path) or a route name.
+     * This will affect the output of the `active` method.
+     *
+     * @param $m
+     *
+     * @return $this
+     */
+    public function matches($m)
+    {
+        if (! isset($this->_items['__matches__'])) {
+            $this->_items['__matches__'] = [];
+        }
+
+        $this->_items['__matches__'][] = $m;
 
         return $this;
     }
@@ -59,6 +86,14 @@ class MenuItem extends RootMenuItem
         return null;
     }
 
+    /**
+     * Changes the slug-name of the element. This is useful when you want to make it easier for other people to extend
+     * your menus.
+     *
+     * @param $new_slug
+     *
+     * @return $this
+     */
     public function slug($new_slug)
     {
         $old_name = $this->_items['__slug__'];
@@ -70,6 +105,14 @@ class MenuItem extends RootMenuItem
         return $this;
     }
 
+    /**
+     *
+     * @internal Used to set the parent menu of the element. Used by the `slug` method to change it's name.
+     *
+     * @param $parent
+     *
+     * @return $this
+     */
     public function setParent($parent)
     {
         $this->_items['__parent__'] = $parent;
@@ -77,28 +120,23 @@ class MenuItem extends RootMenuItem
         return $this;
     }
 
-    public function matches($m)
-    {
-        if (! isset($this->_items['_matches'])) {
-            $this->_items['_matches'] = [];
-        }
-
-        $this->_items['_matches'][] = $m;
-
-        return $this;
-    }
-
+    /**
+     * Returns true if the element is active. Checked against the current path, as well as the current route, and the
+     * matches set in the `matches` method.
+     *
+     * @return bool
+     */
     public function active()
     {
         if ($this->url == request()->path()) {
             return true;
         }
 
-        if (! $this->_items['_matches']) {
+        if (! array_key_exists('__matches__', $this->_items)) {
             return false;
         }
 
-        foreach ($this->_items['_matches'] as $match) {
+        foreach ($this->_items['__matches__'] as $match) {
             if (request()->route()->getName() == $match) {
                 return true;
             }

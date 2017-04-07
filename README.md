@@ -21,7 +21,7 @@ This structure makes it perfect to modularize and extend your menus through the 
 2. Navigate to `app/Menus` and see your menu class created.
 3. In any service provider you have, in the `boot` function, add:
 
-```
+```php
 function boot(\Vynatu\Menu\MenuManager $menu)
 {
     $menu->register('main_menu', \App\Menus\MainMenu::class);
@@ -33,7 +33,7 @@ function boot(\Vynatu\Menu\MenuManager $menu)
 2. Navigate to `app/Menus` and see your menu class created.
 3. In any service provider you have, in the `boot` function, add:
 
-```
+```php
 function boot(\Vynatu\Menu\MenuManager $menu)
 {
     $menu->extend('main_menu', \App\Menus\MainMenuExtension::class);
