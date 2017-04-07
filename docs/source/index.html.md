@@ -1,189 +1,104 @@
 ---
-title: API Reference
+title: Vynatu/Menu Documentation
 
 language_tabs:
-  - shell
-  - ruby
-  - python
-  - javascript
+  - php
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
-
-includes:
-  - errors
+  - <a href='/api'>API Reference</a>
+  - <a href='#'>Back to Main Website</a>
 
 search: true
 ---
 
 # Introduction
+Vynatu/Menu is a PHP (composer) package for Laravel. This package is different that the other menu packages because:
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+- It is lazy-loaded
+- Any menu is extendable
+- Is it not loaded in a middleware
+- Each menu declaration is in it's own class
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+This structure makes it perfect to modularize and extend your menus through the usage of different module libraries the laravel framework can support.
 
-# Authentication
 
-> To authorize, use this code:
+# Installation
 
-```ruby
-require 'kittn'
+Vynatu/Menu only uses a `service provider`. 
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+> Installation with composer:
+
+```php
+composer require vynatu/menu
 ```
 
-```python
-import kittn
+> Add the service provider to the `providers` array:
 
-api = kittn.authorize('meowmeowmeow')
-```
+```php
+<?php 
 
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
+'providers' => [
+    ...
+    Vynatu\Menu\MenuServiceProvider::class,
 ]
 ```
 
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+<aside class="notice">
+Vynatu/Menu does not require an alias. You can call the <b>menu manager</b> directly using <code>app('menu')</code>.
 </aside>
 
-## Get a Specific Kitten
+# Creating a Menu
 
-```ruby
-require 'kittn'
+## Setup the Service Provider
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
+You can register menus in any service provider you use, but I prefer making a new service provider called `MenuServiceProvider`. 
+
+This allows me to better separate what the `AppServiceProvider` does and the new `MenuServiceProvider` that is solely used to register and extend menus.
+
+> Create a new service provider (using Artisan):
+
+```php
+artisan make:provider MenuServiceProvider
 ```
 
-```python
-import kittn
+> Don't forget to register it in the providers!
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
+```php
+<?php 
+
+'providers' => [
+    ...
+    App\Providers\MenuServiceProvider::class,
+]
 ```
 
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
+## Create The New Menu
+
+Vynatu/Menu comes with a console command that lets you create menu classes very easily.
+
+```php
+artisan make:menu MainMenu
 ```
+I personally suggest you put your Menus in a sub-folder (`app/Menus`).
+> Or you can make the class yourself:
 
-```javascript
-const kittn = require('kittn');
+```php
+<?php
+namespace App\Menus;
 
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
+use Vynatu\Menu\MenuInstance;
 
-> The above command returns JSON structured like this:
-
-```json
+class AdminMainMenu extends MenuInstance
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+    public function generate()
+    {
+        //
+    }
 }
+
 ```
 
-This endpoint retrieves a specific kitten.
+After creating your menu class, an instance of `\Vynatu\Menu\RootMenuItem` should automatically be injected in your `MenuInstance`.
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
 
