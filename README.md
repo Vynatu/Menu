@@ -50,7 +50,7 @@ composer require vynatu/menu
 
 You can register menus in any service provider you use, but I prefer making a new service provider called `MenuServiceProvider`.
 
-This allows me to better separate what the `AppServiceProvider` does and the new `MenuServiceProvider` that is solely used to register and extend menus.
+This allows you to better separate what the `AppServiceProvider` does and the new `MenuServiceProvider` that is solely used to register and extend menus.
 
 *Create a new service provider (using Artisan):*
 
@@ -77,7 +77,7 @@ Vynatu/Menu comes with a console command that lets you create menu classes very 
 artisan make:menu MainMenu
 ```
 
-> I personally suggest you put your Menus in a sub-folder (app/Menus).
+> We suggest you put your Menus in a sub-folder (app/Menus).
   
 > Or you can make the class yourself:
 
@@ -189,7 +189,7 @@ public function generate()
 }
 ```
 
-This means that your other extenders can access the `management` menu and, for example, change its icon:
+This allow your other extenders to access the `management` menu item and, for example, change its icon:
 
 ```php
 <?php
