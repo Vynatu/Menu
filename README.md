@@ -80,6 +80,7 @@ artisan make:menu MainMenu
 > I personally suggest you put your Menus in a sub-folder (app/Menus).
   
 > Or you can make the class yourself:
+
 ```php
 <?php
 namespace App\Menus;
