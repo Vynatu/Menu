@@ -1,4 +1,4 @@
-### This package is a WIP. Is it not to be used in production yet.
+Find the API documentation [here](https://menu.packages.vynatu.io/)
 
 - [Introduction](#introduction)
   * [Installation](#installation)
