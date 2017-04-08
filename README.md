@@ -1,6 +1,16 @@
 ### This package is a WIP. Is it not to be used in production yet.
 
-
+- [Introduction](#introduction)
+  * [Installation](#installation)
+- [Creating a Menu](#creatin-a-menu)
+  * [Setup the Service Provider](#setup-the-service-provider)
+  * [Create the New Menu](#create-the-new-menu)
+  * [Add items to the menu](#add-items-to-the-menu)
+  * [Registering the menu](#registering-the-menu)
+  * [Extending a menu](#extending-a-menu)
+  * [Accessing menu items in a menu instance](#accessing-menu-items-in-a-menu-instance)
+  * [Setting variables to a menu item](#setting-variables-to-a-menu-item)
+- [Tips](#tips)
 
 # Introduction
 This package is yet another menu library. This library is different than the others because:
@@ -34,7 +44,7 @@ composer require vynatu/menu
 
 >  Vynatu/Menu does not require an alias. You can call the menu manager directly using app('menu').
 
-# Creatin a Menu
+# Creating a Menu
 
 ## Setup the Service Provider
 
