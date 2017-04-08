@@ -15,6 +15,7 @@ build:api:
   - php sami.phar update config.php
   - mv build ../php-api
   artifacts:
+    expire_in: 1 hour
     paths:
     - php-api/
 
@@ -26,6 +27,7 @@ pages:
   script:
   - mv php-api public
   artifacts:
+    expire_in: 1 hour
     paths:
     - public/
 
