@@ -1,6 +1,8 @@
 ### This package is a WIP. Is it not to be used in production yet.
 
-## What is this package?
+
+
+# Introduction
 This package is yet another menu library. This library is different than the others because:
  
  - It is lazy loaded
@@ -10,37 +12,210 @@ This package is yet another menu library. This library is different than the oth
  
 This structure makes it perfect to modularize and extend your menus through the usage of different module libraries the laravel framework can support.
 
-## How should I install?
-1. `composer require vynatu/menu`
-2. Add `Vynatu\Menu\MenuServiceProvider::class,` to `config/app.php` (Provider section)
-3. (Optional) Add `Menu' => Vynatu\Menu\Facade\Menu::class,` to `config/app.php` (Aliases section)
+## Installation
+*Vynatu/Menu* only uses a single `service provider`.
 
+*First, install with composer:*
 
-## How can I create a menu?
-1. `artisan make:menu MainMenu`
-2. Navigate to `app/Menus` and see your menu class created.
-3. In any service provider you have, in the `boot` function, add:
+```bash
+composer require vynatu/menu
+```
+
+*Then, add the service provider to `app.php`:*
 
 ```php
+<?php 
+
+'providers' => [
+    ...
+    Vynatu\Menu\MenuServiceProvider::class,
+]
+```
+
+>  Vynatu/Menu does not require an alias. You can call the menu manager directly using app('menu').
+
+# Creatin a Menu
+
+## Setup the Service Provider
+
+You can register menus in any service provider you use, but I prefer making a new service provider called `MenuServiceProvider`.
+
+This allows me to better separate what the `AppServiceProvider` does and the new `MenuServiceProvider` that is solely used to register and extend menus.
+
+*Create a new service provider (using Artisan):*
+
+```bash
+artisan make:provider MenuServiceProvider
+```
+
+*Don’t forget to register it in the providers!:*
+
+```php
+<?php 
+
+'providers' => [
+    ...
+    App\Providers\MenuServiceProvider::class,
+]
+```
+
+## Create the New Menu
+
+Vynatu/Menu comes with a console command that lets you create menu classes very easily.
+
+```bash
+artisan make:menu MainMenu
+```
+
+> I personally suggest you put your Menus in a sub-folder (app/Menus).
+  
+> Or you can make the class yourself:
+```php
+<?php
+namespace App\Menus;
+
+use Vynatu\Menu\MenuInstance;
+
+class AdminMainMenu extends MenuInstance
+{
+    public function generate()
+    {
+        //
+    }
+}
+
+```
+
+> After creating your menu class, an instance of `\Vynatu\Menu\RootMenuItem` will automatically be injected in your `MenuInstance`.
+
+
+## Add items to the menu
+
+You can add items to the menu by using the `$this->menu` instance.
+
+```php
+<?php
+
+function generate()
+{
+    $this->menu->add('Dashboard')->url('/home'); // Method 1
+    $this->menu->add('My Account', '/'); // Method 2
+    $this->menu->add('List Users', 'route:users.list'); // Method 3
+    $this->menu->add('Seperator')->section(); // Method 4
+    $this->menu->add('Edit Myself', 'route:users.edit|id:5'); // Method 5
+    $this->menu->add('Logout')->route('auth.logout'); // Method 6
+    $this->menu->add('Some Other Link', ['url' => '/link']); // Method 7
+    
+}
+```
+
+| Method Number | What does `add()` return   | Additional Info                                                                                                                                                  |
+|---------------|----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1             | A new `MenuItem`           | Sets the url to Dashboard                                                                                                                                        |
+| 2             | The `$this->menu` instance | The route is set already by the second argument using an absolute URL. Useful for quick url assignment                                                           |
+| 3             | The `$this->menu` instance | The route is associated using the `route:` prefix. Useful for quick route assignment                                                                             |
+| 4             | A new `MenuItem`           | Useful to create a section. URLs or routes don't have to be set. When a function with no argument is called, a variable with the function's name is set to true. |
+| 5             | The `$this->menu` instance | The route is associated with arguments, useful to create a quick route with parameters.                                                                          |
+| 6             | A new `MenuItem`           | The route is assigned using the fluent interface, which makes the code look cleaner. You can also add an array of route parameters as the second argument.       |
+| 7             | The `$this->menu` instance | You can pass an array as the second argument to immediately issue all the variables to the menu item, when you don't want to use the fluent interface.           |
+
+
+
+
+## Registering the menu
+
+In the menu service provider you have previously created, add this to the boot method:
+
+```php
+<?php
+
 function boot(\Vynatu\Menu\MenuManager $menu)
 {
     $menu->register('main_menu', \App\Menus\MainMenu::class);
 }
 ```
 
-## How can I extend a menu?
-1. `artisan make:menu MainMenuExtension`
-2. Navigate to `app/Menus` and see your menu class created.
-3. In any service provider you have, in the `boot` function, add:
+> You don't have to use dependency injection. You can use `app('menu')->register(...)` instead.
+
+## Extending a menu
+
+Do the same steps as creating and registering a menu, but instead of using the register method:
 
 ```php
+<?php
+
 function boot(\Vynatu\Menu\MenuManager $menu)
 {
-    $menu->extend('main_menu', \App\Menus\MainMenuExtension::class);
+    $menu->extend('main_menu', \App\Menus\MainMenuExtender::class);
 }
 ```
 
+## Accessing menu items in a menu instance
 
+You can access any menu items in a menu instance this way:
 
-## Tips
+```php
+<?php
+
+public function generate()
+{
+    $this->menu->management->add(...);
+}
+```
+
+The `management` variable is created automatically when a new menu item is added. `snake_case` is used to create the variable name.
+
+This means that if you created an item like `$this->menu->add('Management')`, a new variable called `management` will exist and can be accessed by the local menu instance or any menu extender.
+
+If you use `_t` to create menu names (which means the slug name will always change), you can set the slug name statically:
+
+```php
+<?php
+
+public function generate()
+{
+    $this->menu->add(_t('menus.management'))->route('admin.management')->slug('management');
+}
+```
+
+This means that your other extenders can access the `management` menu and, for example, change its icon:
+
+```php
+<?php
+
+public function generate()
+{
+    $this->menu->management->icon('fa fa-home');
+}
+```
+
+## Setting variables to a menu item
+
+There are two ways to do this.
+
+The first one, using a `function`. It is useful to conserve the `fluent` API:
+
+```php
+<?php
+
+public function generate()
+{
+    $this->menu->management->icon('fa fa-home');
+}
+```
+
+The second one, using a `direct variable assignment`:
+
+```php
+<?php
+
+public function generate()
+{
+    $this->menu->management->icon = 'fa fa-home';
+}
+```
+
+Everything can be changed in an extender, including the route and URL.
+
+# Tips
 - The `__construct` of your menu class works with dependency injection. Simply type hint the stuff you need in the parameter list and we'll ask Laravel to inject the stuff you need.
