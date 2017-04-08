@@ -11,7 +11,12 @@
 
 namespace Vynatu\Menu;
 
-
+/**
+ * Implements an `add` function that inserts `MenuItem` references; Used in `RootMenuItem` and `MenuItem` (by
+ * subclassing)
+ *
+ * @package Vynatu\Menu
+ */
 trait CreatesMenuItems
 {
     /**
@@ -22,19 +27,19 @@ trait CreatesMenuItems
      *                                  or
      * @param string|array|null $config $config can either be a string, array or null. Each of those choices will have
      *                                  an impact on the returned data.
-     *                                  - String (Always returns $this):
+     *                                  * String (Always returns $this):
      *                                  1. Giving "/dashboard" will give it a direct URL (relative or not,
      *                                  depending if you preceed it with a /)
      *                                  2. Giving it "route:admin.dashboard" will resolve the route and assign it to
      *                                  the menu item's url. To add route parameters, you can do
      *                                  "route:admin.dashboard|url,1|user,2", which will create the route with the
      *                                  "url" param as "1" and "user" as "2"
-     *                                  - Array (Always returns $this):
+     *                                  * Array (Always returns $this):
      *                                  1. By giving it an array, you directly specify the configuration and additional
      *                                  data to be passed to the menu item. This allows for quick configuration,
      *                                  rapidly, and directly onto the add function.
      *                                  2. To set the route, use the `route` key, for a url, use the `url` key.
-     *                                  - Null (Always returns a new MenuInstance class):
+     *                                  * Null (Always returns a new MenuInstance class):
      *                                  1. Normally, this is used for sub-menus. You can do something simply, like
      *                                  `$menu->add('Dashboard')->route('admin.dashboard')`
      *

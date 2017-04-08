@@ -16,8 +16,7 @@ use Illuminate\Foundation\Application;
 use Vynatu\Menu\Exceptions\NoSuchMenuFoundException;
 
 /**
- * Class MenuManager
- * Adds, extends and generates menus
+ * Adds, extends and generates menus. Result of `app('menu')`
  *
  * @package Vynatu\Menu
  */

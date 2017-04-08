@@ -11,9 +11,19 @@
 
 namespace Vynatu\Menu;
 
-class MenuInstance
+/**
+ * Used to create new menus or extend already existing ones. This class is instanciated only when needed.
+ *
+ * @package Vynatu\Menu
+ */
+abstract class MenuInstance
 {
     protected $menu;
+
+    public function generate()
+    {
+        throw new \RuntimeException('The generate function should be implemented');
+    }
 
     public function getMenu()
     {

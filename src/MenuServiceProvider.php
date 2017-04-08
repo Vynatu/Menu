@@ -11,10 +11,14 @@
 
 namespace Vynatu\Menu;
 
-
 use Illuminate\Support\ServiceProvider;
 use Vynatu\Menu\Console\MakeMenuCommand;
 
+/**
+ * Laravel Service Provider exposing the menu functionality
+ *
+ * @package Vynatu\Menu
+ */
 class MenuServiceProvider extends ServiceProvider
 {
     protected $defer = true;

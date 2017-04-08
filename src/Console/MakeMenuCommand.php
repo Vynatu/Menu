@@ -13,6 +13,11 @@ namespace Vynatu\Menu\Console;
 
 use Illuminate\Console\GeneratorCommand;
 
+/**
+ * Laravel command to create menus using the provided stub
+ *
+ * @package Vynatu\Menu\Console
+ */
 class MakeMenuCommand extends GeneratorCommand
 {
 

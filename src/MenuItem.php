@@ -11,7 +11,12 @@
 
 namespace Vynatu\Menu;
 
-
+/**
+ * Main package functionality lies here; It is used to create sub-elements or to add attributes to a menu item, either
+ * by using magic method or magic assignments.
+ *
+ * @package Vynatu\Menu
+ */
 class MenuItem extends RootMenuItem
 {
     /**

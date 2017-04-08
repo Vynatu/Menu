@@ -13,6 +13,11 @@ namespace Vynatu\Menu\Facade;
 
 use Illuminate\Support\Facades\Facade;
 
+/**
+ * Optional facade you can add to the `aliases` section of `app.php`
+ *
+ * @package Vynatu\Menu\Facade
+ */
 class Menu extends Facade
 {
     protected static function getFacadeAccessor()

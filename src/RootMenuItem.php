@@ -11,11 +11,16 @@
 
 namespace Vynatu\Menu;
 
-
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Traversable;
 
+/**
+ * A root menu item that contains multiple `MenuItem` classes. This class can only contain some `MenuItem`, and never
+ * other menu variables.
+ *
+ * @package Vynatu\Menu
+ */
 class RootMenuItem implements \ArrayAccess, Arrayable, \Countable, \IteratorAggregate, Jsonable, \JsonSerializable
 {
     use CreatesMenuItems;
