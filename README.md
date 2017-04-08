@@ -108,13 +108,13 @@ You can add items to the menu by using the `$this->menu` instance.
 
 function generate()
 {
-    $this->menu->add('Dashboard')->url('/home'); // Method 1
-    $this->menu->add('My Account', '/'); // Method 2
-    $this->menu->add('List Users', 'route:users.list'); // Method 3
-    $this->menu->add('Seperator')->section(); // Method 4
-    $this->menu->add('Edit Myself', 'route:users.edit|id:5'); // Method 5
-    $this->menu->add('Logout')->route('auth.logout'); // Method 6
-    $this->menu->add('Some Other Link', ['url' => '/link']); // Method 7
+    $this->menu->add('Dashboard')->url('/home');                // Method 1
+    $this->menu->add('My Account', '/');                        // Method 2
+    $this->menu->add('List Users', 'route:users.list');         // Method 3
+    $this->menu->add('Seperator')->section();                   // Method 4
+    $this->menu->add('Edit Myself', 'route:users.edit|id:5');   // Method 5
+    $this->menu->add('Logout')->route('auth.logout');           // Method 6
+    $this->menu->add('Some Other Link', ['url' => '/link']);    // Method 7
     
 }
 ```
