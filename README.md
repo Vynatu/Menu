@@ -2,7 +2,7 @@ Find the API documentation [here](https://menu.packages.vynatu.io/)
 
 - [Introduction](#introduction)
   * [Installation](#installation)
-- [Creating a Menu](#creatin-a-menu)
+- [Creating a Menu](#creating-a-menu)
   * [Setup the Service Provider](#setup-the-service-provider)
   * [Create the New Menu](#create-the-new-menu)
   * [Add items to the menu](#add-items-to-the-menu)
@@ -10,6 +10,8 @@ Find the API documentation [here](https://menu.packages.vynatu.io/)
   * [Extending a menu](#extending-a-menu)
   * [Accessing menu items in a menu instance](#accessing-menu-items-in-a-menu-instance)
   * [Setting variables to a menu item](#setting-variables-to-a-menu-item)
+- [Views](#views)
+- [Item iteration in views](#item-iteration-in-views)
 - [Tips](#tips)
 
 # Introduction
