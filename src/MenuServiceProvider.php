@@ -23,6 +23,11 @@ class MenuServiceProvider extends ServiceProvider
 {
     protected $defer = true;
 
+    public function boot()
+    {
+        $this->loadViewsFrom(__DIR__ . '/Views', 'menu');
+    }
+
     public function register()
     {
         // Expose commands
