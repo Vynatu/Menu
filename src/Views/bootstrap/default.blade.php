@@ -4,7 +4,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                aria-expanded="false">{{ $item->title }}<span class="caret"></span></a>
             <ul class="dropdown-menu">
-                @include('menu_elements', ['menu' => $item])
+                @include('menu::bootstrap.default', ['menu' => $item])
             </ul>
         </li>
     @else
