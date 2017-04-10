@@ -11,7 +11,7 @@ Find the API documentation [here](https://menu.packages.vynatu.io/)
   * [Accessing menu items in a menu instance](#accessing-menu-items-in-a-menu-instance)
   * [Setting variables to a menu item](#setting-variables-to-a-menu-item)
 - [Views](#views)
-- [Item iteration in views](#item-iteration-in-views)
+  * [Item iteration in views](#item-iteration-in-views)
 - [Tips](#tips)
 
 # Introduction
@@ -233,7 +233,7 @@ Everything can be changed in an extender, including the route and URL.
 
 # Views
 
-# Item iteration in views
+## Item iteration in views
 
 **Here is an example using bootstrap navbar**:
 
