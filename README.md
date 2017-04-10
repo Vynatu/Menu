@@ -31,7 +31,7 @@ This structure makes it perfect to modularize and extend your menus through the 
 composer require vynatu/menu
 ```
 
-*Then, add the service provider to `app.php`:*
+Then, add the service provider to `app.php`:
 
 ```php
 <?php 
@@ -58,7 +58,7 @@ This allows you to better separate what the `AppServiceProvider` does and the ne
 artisan make:provider MenuServiceProvider
 ```
 
-*Don’t forget to register it in the providers!:*
+Don’t forget to register it in the providers!:
 
 ```php
 <?php 
@@ -227,6 +227,60 @@ public function generate()
 ```
 
 Everything can be changed in an extender, including the route and URL.
+
+
+# Views
+
+# Item iteration in views
+
+**Here is an example using bootstrap navbar**:
+
+**File Name: menus.main_menu**
+
+```blade
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Some Menu Example</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                @include('menu_elements', ['menu' => $menu])
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+</nav>
+```
+
+**File Name: menu_elements**
+
+```blade
+@foreach($menu->items() as $item)
+    @if($item->hasSubItems())
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+               aria-expanded="false">{{ $item->title }}<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                @include('menu_elements', ['menu' => $item])
+            </ul>
+        </li>
+    @else
+        <li @if($item->active()) class="active" @endif>
+            <a href="{{ $item->url }}">{{ $item->title }}</a>
+        </li>
+    @endif
+@endforeach
+```
+
+This should achieve a menu looking like [the default bootstrap navbar](https://getbootstrap.com/examples/navbar/)
+
 
 # Tips
 - The `__construct` of your menu class works with dependency injection. Simply type hint the stuff you need in the parameter list and we'll ask Laravel to inject the stuff you need.

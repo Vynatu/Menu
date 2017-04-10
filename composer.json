@@ -13,6 +13,11 @@
             "homepage": "https://vynatu.io"
         }
     ],
+    "keywords": [
+        "menu",
+        "laravel",
+        "php"
+    ],
     "require": {
         "php": ">=7.0",
         "illuminate/support": "^5.0"
