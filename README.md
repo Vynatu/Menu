@@ -254,14 +254,14 @@ Everything can be changed in an extender, including the route and URL.
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                @include('menu_elements', ['menu' => $menu])
+                @include('menu::bootstrap.default', ['menu' => $menu])
             </ul>
         </div><!--/.nav-collapse -->
     </div><!--/.container-fluid -->
 </nav>
 ```
 
-**File Name: menu_elements**
+**File Name: menu_elements** (Also available under `view('menu::bootstrap.default')`)
 
 ```blade
 @foreach($menu->items() as $item)
