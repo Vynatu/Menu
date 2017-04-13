@@ -103,7 +103,7 @@ class MenuItem extends RootMenuItem
         }
 
         foreach ($this->items() as $item) {
-            if ($item->active() || $this->hasActiveSubMenu()) {
+            if ($item->active() || $item->hasActiveSubMenu()) {
                 return true;
             }
         }
