@@ -51,6 +51,9 @@ trait CreatesMenuItems
         $item->title = $title;
         $item->setParent($this);
 
+        // Unset matches or URL, as a menu group cannot be url-active.
+        unset($this->_items['__matches__'], $this->_items['url']);
+
         if ($config === null) {
             $slug = $item['__slug__'] = snake_case($title);
             $this->_items[$slug] = &$item;

@@ -92,6 +92,26 @@ class MenuItem extends RootMenuItem
     }
 
     /**
+     * Checks if a sub-menu is active
+     *
+     * @return boolean
+     */
+    public function hasActiveSubMenu()
+    {
+        if (! $this->hasSubItems()) {
+            return false;
+        }
+
+        foreach ($this->items() as $item) {
+            if ($item->active() || $this->hasActiveSubMenu()) {
+                return true;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Changes the slug-name of the element. This is useful when you want to make it easier for other people to extend
      * your menus.
      *
@@ -133,6 +153,10 @@ class MenuItem extends RootMenuItem
      */
     public function active()
     {
+        if ($this->url === null || $this->hasSubItems()) {
+            return false;
+        }
+
         if ($this->url == request()->path()) {
             return true;
         }
