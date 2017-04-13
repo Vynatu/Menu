@@ -43,7 +43,7 @@ class RootMenuItem implements \ArrayAccess, Arrayable, \Countable, \IteratorAggr
     public function hasSubItems()
     {
         foreach ($this->_items as $key => $item) {
-            if ($item instanceof MenuItem) {
+            if (! (starts_with($key, '__') && ends_with($key, '__')) && $item instanceof MenuItem) {
                 return true;
             }
         }
