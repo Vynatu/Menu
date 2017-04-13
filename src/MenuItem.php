@@ -108,7 +108,7 @@ class MenuItem extends RootMenuItem
             }
         }
 
-        return true;
+        return false;
     }
 
     /**
