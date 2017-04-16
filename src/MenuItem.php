@@ -212,7 +212,14 @@ class MenuItem extends RootMenuItem
 
     protected function applyConfig(array $config)
     {
-        $this->_items += $config;
+        foreach ($config as $key => $value) {
+            if(method_exists($this, $key)) {
+                $this->$key($value);
+                continue;
+            }
+
+            $this->_items[$key] = $value;
+        }
 
         return $this;
     }
