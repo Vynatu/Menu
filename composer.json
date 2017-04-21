@@ -2,6 +2,7 @@
     "name": "vynatu/menu",
     "description": "An extendable and async menu package for Laravel",
     "license": "MIT",
+    "type": "library",
     "authors": [
         {
             "name": "Felix Lebel",

@@ -45,6 +45,8 @@ class MenuItem extends RootMenuItem
     /**
      * Adds a match for a URL (path) or a route name.
      * This will affect the output of the `active` method.
+     * A wildcard identifier (*) is also acceptable to match
+     * any wildcard URL. (Useful for filters).
      *
      * @param $m
      *
@@ -157,7 +159,7 @@ class MenuItem extends RootMenuItem
             return false;
         }
 
-        if ($this->url == request()->path()) {
+        if ($this->url == request()->url()) {
             return true;
         }
 
@@ -167,6 +169,10 @@ class MenuItem extends RootMenuItem
 
         foreach ($this->_items['__matches__'] as $match) {
             if (request()->route()->getName() == $match) {
+                return true;
+            }
+
+            if (str_is($match, request()->path())) {
                 return true;
             }
         }
@@ -213,7 +219,7 @@ class MenuItem extends RootMenuItem
     protected function applyConfig(array $config)
     {
         foreach ($config as $key => $value) {
-            if(method_exists($this, $key)) {
+            if (method_exists($this, $key)) {
                 $this->$key($value);
                 continue;
             }
