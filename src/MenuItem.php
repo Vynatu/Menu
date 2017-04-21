@@ -94,6 +94,21 @@ class MenuItem extends RootMenuItem
     }
 
     /**
+     * Enabled strict mode (This means that query params are
+     * also evaluated). Full URL is then required to match.
+     *
+     * @param bool $strict
+     *
+     * @return $this
+     */
+    public function strict(bool $strict = true)
+    {
+        $this->_items['__strict__'] = true;
+
+        return $this;
+    }
+
+    /**
      * Checks if a sub-menu is active
      *
      * @return boolean
@@ -159,7 +174,7 @@ class MenuItem extends RootMenuItem
             return false;
         }
 
-        if ($this->url == request()->url()) {
+        if ($this->url == (isset($this->_items['__strict__']) && $this->_items['__strict__'] == true ? request()->fullUrl() : request()->url())) {
             return true;
         }
 
