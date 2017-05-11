@@ -93,6 +93,19 @@ trait CreatesMenuItems
 
             return $this;
         }
+        
+        //Is it another Menu
+        if(starts_with($config, 'menu:')) {
+			$slug = $item['__slug__'] = snake_case($title);
+
+			foreach(app('menu')->get(str_replace_first('menu:', '', $config)) as $sub_item) {
+				$item->add($sub_item->title, $sub_item->_items);
+			}
+
+			$this->_items[$slug] = &$item;
+
+			return $this;
+		}
 
         // Else it's a plain url
         $this->_items[snake_case($title)] = &$item;
