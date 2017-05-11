@@ -118,7 +118,8 @@ function generate()
     $this->menu->add('Edit Myself', 'route:users.edit|id:5');   // Method 5
     $this->menu->add('Logout')->route('auth.logout');           // Method 6
     $this->menu->add('Some Other Link', ['url' => '/link']);    // Method 7
-    $this->menu->add('Sub Menu', 'menu:sub_menu_name);          // Method 8
+    $this->menu->add('Sub Menu', 'menu:menu_name);          // Method 8
+    $this->menu->add('Sub Menu', 'sub-menu:sub_menu_name);          // Method 9
     
 }
 ```
@@ -132,7 +133,8 @@ function generate()
 | 5             | The `$this->menu` instance | The route is associated with arguments, useful to create a quick route with parameters.                                                                          |
 | 6             | A new `MenuItem`           | The route is assigned using the fluent interface, which makes the code look cleaner. You can also add an array of route parameters as the second argument.       |
 | 7             | The `$this->menu` instance | You can pass an array as the second argument to immediately issue all the variables to the menu item, when you don't want to use the fluent interface.           |
-| 8             | The `$this->menu` instance | You can pass the name of another menu and the class will pull in that menu as a sub menu.           |
+| 8             | The `$this->menu` instance | You can pass the name of another menu and the class will merge that menu with this menu.           |
+| 9             | The `$this->menu` instance | You can pass the name of another menu and the class will pull in that menu as a sub menu.           |
 
 
 
