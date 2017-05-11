@@ -94,15 +94,24 @@ trait CreatesMenuItems
             return $this;
         }
         
-        //Is it another Menu
-        if(starts_with($config, 'menu:')) {
+
+		// Is it another Menu?
+		if(starts_with($config, 'menu:') || starts_with($config, 'sub-menu:')) {
 			$slug = $item['__slug__'] = snake_case($title);
 
-			foreach(app('menu')->get(str_replace_first('menu:', '', $config)) as $sub_item) {
-				$item->add($sub_item->title, $sub_item->_items);
+			if(starts_with($config, 'menu:')) {
+				$items =& $this->_items;
+				$menu = app('menu')->get(str_replace_first('menu:', '', $config));
+			} else {// if(starts_with($config, 'sub-menu:')) {
+				$items =& $item->_items;
+				$menu = app('menu')->get(str_replace_first('sub-menu:', '', $config));
 			}
 
-			$this->_items[$slug] = &$item;
+			$items = array_merge($items, $menu->_items);
+
+			if(starts_with($config, 'sub-menu:')) {
+				$this->_items[$slug] = &$item;
+			}
 
 			return $this;
 		}
