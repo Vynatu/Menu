@@ -37,7 +37,7 @@
                 "Vynatu\\Menu\\MenuServiceProvider"
             ],
             "aliases": {
-                "Debugbar": "Vynatu\\Menu\\Facade\\Menu"
+                "Menu": "Vynatu\\Menu\\Facade\\Menu"
             }
         }
     },
