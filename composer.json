@@ -31,6 +31,14 @@
     "extra": {
         "branch-alias": {
             "dev-master": "0.1-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Vynatu\\Menu\\MenuServiceProvider"
+            ],
+            "aliases": {
+                "Debugbar": "Vynatu\\Menu\\Facade\\Menu"
+            }
         }
     },
     "minimum-stability": "dev",
